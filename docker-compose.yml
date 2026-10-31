@@ -1,0 +1,16 @@
+# NOT executed on the build VM (no Docker there) - verified by inspection only.
+# The spec's PostgreSQL prediction-history store is represented here as the
+# 'db' service for a deployed variant; the local verified app uses SQLite
+# (see docs/decisions.md).
+services:
+  app:
+    build: .
+    ports: ["8101:8101"]
+    environment: { PORT: "8101" }
+    volumes: ["history:/app/data"]
+  db:
+    image: postgres:16-alpine
+    environment: { POSTGRES_DB: homevalue, POSTGRES_USER: homevalue, POSTGRES_PASSWORD: change-me-local-only }
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    profiles: ["with-db"]
+volumes: { history: {}, pgdata: {} }

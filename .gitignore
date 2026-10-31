@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+artifacts/*.joblib
+artifacts/metrics.json
+artifacts/model_card.json
+artifacts/residuals.csv
+data/predictions.db
+.pytest_cache/
+.env

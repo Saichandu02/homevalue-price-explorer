@@ -1,0 +1,11 @@
+# Release checklist
+- [x] Training run end-to-end on the real dataset; metrics in docs/verification.md
+- [x] Tests pass locally (see verification.md)
+- [x] Smoke test passes against the running API
+- [x] README setup commands match actual files
+- [x] No secrets, personal data, or large model binaries committed
+- [x] Dataset attribution + checksum in data/DATA_CARD.md
+- [ ] Screenshot captured (text capture in docs/screenshot.txt; image pending)
+- [ ] Demo video recorded (script in docs/demo.md; recording pending)
+- [ ] Public deployment (pending authorized account)
+- [ ] Remote CI run (workflow committed; not claimed as executed)

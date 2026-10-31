@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>HomeValue — Housing Price Explorer</title>
+<style>body{font-family:system-ui,sans-serif;margin:2rem;max-width:900px}label{display:block;margin:.4rem 0}input,select{padding:.3rem}table{border-collapse:collapse}td,th{border:1px solid #ccc;padding:.25rem .5rem}.warn{color:#a15c00}</style>
+</head><body>
+<h1>HomeValue — Housing Price Explorer</h1>
+<p>California Housing (1990 census block groups). Estimates are model outputs on historical
+data — <strong>not</strong> current market valuations. See <code>/api/model</code> for held-out test error.</p>
+
+<h2>Explore listings</h2>
+<label>Region <select id="region"><option value="">All</option></select></label>
+<button id="load">Load listings</button>
+<table id="listings"><thead><tr><th>MedInc</th><th>HouseAge</th><th>AveRooms</th><th>Lat</th><th>Lon</th><th>Region</th><th>Price (USD)</th></tr></thead><tbody></tbody></table>
+
+<h2>Get a prediction</h2>
+<form id="pred">
+<label>Median income (10k USD) <input name="MedInc" type="number" step="any" value="5.0" required></label>
+<label>House age (years) <input name="HouseAge" type="number" step="any" value="20" required></label>
+<label>Avg rooms <input name="AveRooms" type="number" step="any" value="6" required></label>
+<label>Avg bedrooms <input name="AveBedrms" type="number" step="any" value="1" required></label>
+<label>Population (block group) <input name="Population" type="number" step="any" value="1000" required></label>
+<label>Avg occupants <input name="AveOccup" type="number" step="any" value="3" required></label>
+<label>Latitude <input name="Latitude" type="number" step="any" value="37.88" required></label>
+<label>Longitude <input name="Longitude" type="number" step="any" value="-122.23" required></label>
+<label>Region (optional override) <input name="region" type="text" placeholder="Bay Area"></label>
+<button type="submit">Predict</button>
+</form>
+<pre id="out"></pre>
+<script>
+fetch('/api/markets').then(r=>r.json()).then(d=>{
+  const sel=document.getElementById('region');
+  d.markets.forEach(m=>{const o=document.createElement('option');o.value=m.region;o.textContent=m.region;sel.appendChild(o);});
+});
+document.getElementById('load').onclick=async()=>{
+  const reg=document.getElementById('region').value;
+  const d=await (await fetch('/api/listings?limit=10'+(reg?'&region='+encodeURIComponent(reg):''))).json();
+  document.querySelector('#listings tbody').innerHTML=d.listings.map(r=>
+    `<tr><td>${r.MedInc}</td><td>${r.HouseAge}</td><td>${r.AveRooms.toFixed(2)}</td><td>${r.Latitude}</td><td>${r.Longitude}</td><td>${r.region}</td><td>${r.price.toFixed(0)}</td></tr>`).join('');
+};
+document.getElementById('pred').onsubmit=async(e)=>{
+  e.preventDefault();
+  const f=new FormData(e.target), body={};
+  for(const [k,v] of f.entries()){ if(k==='region'){ if(v) body.region=v; } else body[k]=parseFloat(v); }
+  const r=await fetch('/api/predict',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  document.getElementById('out').textContent=JSON.stringify(await r.json(),null,2);
+};
+</script>
+</body></html>

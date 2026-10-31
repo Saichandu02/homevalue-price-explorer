@@ -1,0 +1,8 @@
+TEXT CAPTURE (image screenshot pending - not fabricated)
+Served at GET / on 2026-10-31, verified over HTTP 200. Page contains:
+  - H1 "HomeValue - Housing Price Explorer"
+  - 1990-data honesty note
+  - Region filter + listings table (populated from /api/listings)
+  - Prediction form with the 8 numeric inputs + optional region override
+  - Result <pre> populated from POST /api/predict
+Capture the real PNG with any browser screenshot tool during the demo recording.

@@ -1,0 +1,4 @@
+# Optional Streamlit UI (streamlit_app.py). Not part of the verified path:
+# the Flask UI at / is the tested UI. Install only if you want to try it.
+streamlit>=1.37
+plotly>=5.22

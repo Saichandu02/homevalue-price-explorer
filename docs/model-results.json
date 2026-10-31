@@ -1,0 +1,113 @@
+{
+  "dataset": "California Housing (1990 census block groups)",
+  "validation_report": {
+    "rows_raw": 20640,
+    "rows_after_target_household_filter": 20640,
+    "duplicates_removed": 0,
+    "rows_modelled": 20640
+  },
+  "splits": {
+    "train": 14412,
+    "validation": 3755,
+    "test": 2473,
+    "split_method": "GroupShuffleSplit by 0.1-degree lat/lon grid cell; preprocessing fit on train only"
+  },
+  "models": {
+    "median_baseline": {
+      "validation": {
+        "mae_usd": 87949.3,
+        "rmse_usd": 123030.8,
+        "n": 3755
+      },
+      "test": {
+        "mae_usd": 90826.31,
+        "rmse_usd": 126607.52,
+        "n": 2473
+      }
+    },
+    "ridge": {
+      "validation": {
+        "mae_usd": 55220.74,
+        "rmse_usd": 76843.52,
+        "n": 3755
+      },
+      "alpha": 1.0,
+      "test": {
+        "mae_usd": 57166.48,
+        "rmse_usd": 82597.85,
+        "n": 2473
+      }
+    },
+    "random_forest": {
+      "validation": {
+        "mae_usd": 39080.05,
+        "rmse_usd": 57999.57,
+        "n": 3755
+      },
+      "max_depth": 20,
+      "min_samples_leaf": 2,
+      "n_estimators": 200,
+      "test": {
+        "mae_usd": 38183.03,
+        "rmse_usd": 56870.43,
+        "n": 2473
+      },
+      "test_slices": {
+        "<150k": {
+          "n": 843,
+          "mae_usd": 26256.72,
+          "rmse_usd": 38810.64
+        },
+        "150-250k": {
+          "n": 966,
+          "mae_usd": 30847.06,
+          "rmse_usd": 42084.56
+        },
+        "250-350k": {
+          "n": 309,
+          "mae_usd": 47742.27,
+          "rmse_usd": 62856.42
+        },
+        "350-500k": {
+          "n": 355,
+          "mae_usd": 78145.37,
+          "rmse_usd": 103417.37
+        },
+        "region:Bay Area": {
+          "n": 197,
+          "mae_usd": 39708.61,
+          "rmse_usd": 49618.26
+        },
+        "region:Central Valley": {
+          "n": 658,
+          "mae_usd": 27610.37,
+          "rmse_usd": 40882.75
+        },
+        "region:Northern California": {
+          "n": 38,
+          "mae_usd": 15350.76,
+          "rmse_usd": 19523.91
+        },
+        "region:Other California": {
+          "n": 52,
+          "mae_usd": 26440.17,
+          "rmse_usd": 34150.46
+        },
+        "region:Southern California": {
+          "n": 1528,
+          "mae_usd": 43506.68,
+          "rmse_usd": 64406.13
+        }
+      }
+    }
+  },
+  "winner": "random_forest",
+  "model_version": "1.0.0-8e28941c",
+  "dataset_fingerprint_sha256": "8e28941c713df5f9835c8f5b0b539cb4e3273967d0fb28070833b5de65409c2a",
+  "runtime": {
+    "python": "3.12.3",
+    "sklearn": "1.5.2",
+    "platform": "Linux-7.0.0-39-generic-x86_64-with-glibc2.39",
+    "train_seconds": 63.7
+  }
+}
